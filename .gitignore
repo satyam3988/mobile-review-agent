@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.log
+
+# Virtual environments
+env/
+venv/
+.agentic_env/
+agentic_env/
+
+# VSCode & macOS
+.DS_Store
+.vscode/
+
+# Environment files
+.env
