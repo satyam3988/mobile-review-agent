@@ -1,28 +1,27 @@
-# langgraph_workflow/feature_sentiment_graph.py
-
 from langgraph.graph import StateGraph
 from agents.feature_sentiment_agent import classify_features
+from agents.summarization_agent import summarize_review
 
-# Define the state object that will carry data through the graph
 class ReviewState(dict):
     pass
 
-# Agent node: Classifies the feature-wise sentiment
 def feature_sentiment_node(state: ReviewState):
     review = state["review"]
     features_result = classify_features(review)
-    return ReviewState({
-        "review": review,
-        "feature_sentiment": features_result
-    })
+    return ReviewState({**state, "feature_sentiment": features_result})
 
-# Build and compile the graph
+def summarization_node(state: ReviewState):
+    summary = summarize_review(state["review"])
+    return ReviewState({**state, "summary": summary})
+
 def build_feature_sentiment_graph():
     builder = StateGraph(ReviewState)
 
     builder.add_node("feature_sentiment", feature_sentiment_node)
+    builder.add_node("summarize", summarization_node)
 
     builder.set_entry_point("feature_sentiment")
-    builder.set_finish_point("feature_sentiment")  # ✅ FIXED: only one argument
+    builder.add_edge("feature_sentiment", "summarize")  # ✅ required
+    builder.set_finish_point("summarize")                # ✅ must finish here
 
     return builder.compile()

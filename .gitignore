@@ -16,3 +16,4 @@ agentic_env/
 
 # Environment files
 .env
+data/
