@@ -14,7 +14,7 @@ def safe_eval(value):
     except:
         return []
 
-def load_top_reviews(csv_path: str = "data/sample_10_phones_aggregated.csv") -> pd.DataFrame:
+def load_top_reviews(csv_path: str = "data/all_mobile_phone_reviews.csv") -> pd.DataFrame:
     return pd.read_csv(csv_path)
 
 def get_all_phones(df: pd.DataFrame) -> list:
